@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffedf3">
+  <title>LOVE SYSTEM 💗</title>
+  <style>
+    :root { --pink:#ff5f93; --deep:#a52c60; --ink:#49233a; --soft:#fff4f8; }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; padding:24px 14px;
+      display:flex; align-items:center; justify-content:center;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink);
+      background:radial-gradient(circle at top left,#ffe0eb,transparent 42%),
+                 linear-gradient(135deg,#fff8fb,#ffeaf2 55%,#fff4f7);
+      overflow-x:hidden;
+    }
+    .card {
+      width:min(100%,520px); padding:clamp(22px,6vw,38px);
+      border:1px solid #ffffffcc; border-radius:28px;
+      background:#ffffffd9; box-shadow:0 18px 55px #b7477430;
+      text-align:center; backdrop-filter:blur(8px);
+    }
+    .heart { font-size:52px; animation:pulse 1.4s infinite; display:inline-block; }
+    h1 { margin:8px 0 6px; color:var(--deep); letter-spacing:2px; font-size:clamp(27px,7vw,38px); }
+    .subtitle { margin:0 0 24px; color:#9a6580; }
+    .line { height:1px; background:linear-gradient(90deg,transparent,#f4a4c1,transparent); margin:20px 0; }
+    .panel { background:var(--soft); border-radius:18px; padding:18px; text-align:left; }
+    .status { display:flex; justify-content:space-between; gap:12px; margin:10px 0; }
+    .status strong { color:var(--deep); }
+    .meter { height:10px; background:#f9d5e3; border-radius:99px; overflow:hidden; margin:7px 0 15px; }
+    .meter span { display:block; height:100%; width:100%; background:linear-gradient(90deg,#ff91b6,#ff4d88); border-radius:99px; }
+    .message { line-height:1.7; min-height:80px; }
+    button {
+      border:0; border-radius:999px; padding:13px 20px; margin:8px 4px 0;
+      font:inherit; font-weight:700; cursor:pointer; color:white;
+      background:linear-gradient(135deg,#ff78a5,#e94780); box-shadow:0 8px 18px #e9478030;
+    }
+    button.secondary { color:var(--deep); background:#ffe3ed; box-shadow:none; }
+    footer { margin-top:22px; font-size:12px; color:#a77b91; }
+    .floating { position:fixed; pointer-events:none; opacity:.65; animation:float 5s linear forwards; z-index:-1; }
+    @keyframes pulse { 50% { transform:scale(1.12); } }
+    @keyframes float { from { transform:translateY(10vh) rotate(0); opacity:.8; } to { transform:translateY(-110vh) rotate(30deg); opacity:0; } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="heart" aria-hidden="true">💗</div>
+    <h1>LOVE SYSTEM</h1>
+    <p class="subtitle">Sistem perasaan sedang berjalan… ✨</p>
+    <div class="line"></div>
+    <section class="panel" aria-live="polite">
+      <div class="status"><span>💌 Target ditemukan</span><strong id="target">Sayang</strong></div>
+      <div class="status"><span>💖 Status</span><strong>TERKIRIM</strong></div>
+      <p class="message" id="message">Kamu adalah salah satu alasan hari biasa terasa istimewa. Terima kasih sudah hadir. 💕</p>
+    </section>
+    <div class="line"></div>
+    <div class="status"><span>💗 Cinta</span><strong>100%</strong></div>
+    <div class="meter"><span></span></div>
+    <div class="status"><span>🥺 Rindu</span><strong id="rindu">Selalu ada</strong></div>
+    <div class="status"><span>😌 Marah</span><strong>TIDAK</strong></div>
+    <button id="surprise">Buka pesan rahasia 💌</button>
+    <button class="secondary" id="musicToggle" aria-pressed="false">✨ Kirim hati</button>
+    <footer>Dibuat dengan sepenuh hati · LOVE SYSTEM ©</footer>
+  </main>
+  <script>
+    const messages = [
+      "Kamu adalah salah satu alasan hari biasa terasa istimewa. Terima kasih sudah hadir. 💕",
+      "Kalau hari kamu berat, semoga kamu ingat ada banyak hal baik yang masih menunggu. Aku dukung kamu! 🌷",
+      "Pesan rahasia: kamu berharga, kamu istimewa, dan kamu pantas mendapatkan hal-hal baik. 💗",
+      "Tidak perlu jadi sempurna untuk membuat dunia seseorang lebih cerah. Tetap jadi dirimu sendiri. ✨"
+    ];
+    let index = 0;
+    document.getElementById("surprise").addEventListener("click", () => {
+      index = (index + 1) % messages.length;
+      document.getElementById("message").textContent = messages[index];
+      document.getElementById("rindu").textContent = index % 2 ? "Level tinggi 🥹" : "Selalu ada";
+      burst();
+    });
+    document.getElementById("musicToggle").addEventListener("click", (event) => {
+      const button = event.currentTarget;
+      const active = button.getAttribute("aria-pressed") !== "true";
+      button.setAttribute("aria-pressed", String(active));
+      button.textContent = active ? "💖 Hati terkirim!" : "✨ Kirim hati";
+      burst();
+    });
+    function burst() {
+      for (let i = 0; i < 12; i++) {
+        const heart = document.createElement("span");
+        heart.className = "floating";
+        heart.textContent = ["💗","💖","💕","✨"][Math.floor(Math.random()*4)];
+        heart.style.left = (Math.random()*100) + "vw";
+        heart.style.bottom = "-30px";
+        heart.style.fontSize = (16 + Math.random()*18) + "px";
+        heart.style.animationDuration = (3 + Math.random()*3) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6500);
+      }
+    }
+  </script>
+</body>
+</html>
